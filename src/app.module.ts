@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
 import { User } from './users/user.model'
 import { CrudTestModule } from './crud-test/crud-test.module'
+import { AccountsModule } from './accounts/accounts.module'
+import { Account } from './accounts/account.model'
 
 @Module({
   imports: [
@@ -20,11 +22,12 @@ import { CrudTestModule } from './crud-test/crud-test.module'
       username: process.env.DATABASE_USERNAME || 'root',
       password: process.env.DATABASE_PASSWORD || 'root',
       database: process.env.DATABASE_NAME || 'test',
-      models: [User],
+      models: [User, Account],
     }),
     AuthModule,
     UsersModule,
     CrudTestModule,
+    AccountsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
