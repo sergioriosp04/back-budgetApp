@@ -6,7 +6,6 @@ import { SequelizeModule } from '@nestjs/sequelize'
 import { AuthModule } from './auth/auth.module'
 import { UsersModule } from './users/users.module'
 import { User } from './users/user.model'
-import { CrudTestModule } from './crud-test/crud-test.module'
 import { AccountsModule } from './accounts/accounts.module'
 import { Account } from './accounts/account.model'
 
@@ -26,7 +25,6 @@ import { Account } from './accounts/account.model'
     }),
     AuthModule,
     UsersModule,
-    CrudTestModule,
     AccountsModule,
   ],
   controllers: [AppController],
