@@ -9,7 +9,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string): Promise<any> {
     const user = await this.usersService.findOneByEmail(username)
     if (user) {
       return user

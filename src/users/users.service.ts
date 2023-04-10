@@ -18,23 +18,36 @@ export class UsersService {
     return this.userModel.scope('withoutPassword').findAll()
   }
 
-  findOne(id: string): Promise<User> {
-    return this.userModel.scope('withoutPassword').findOne({
+  async findOne(id: string): Promise<User> | null {
+    const user = await this.userModel.findOne({
       where: {
         id,
       },
     })
+
+    if (!user) {
+      return null
+    }
+
+    delete user.dataValues?.password
+    return user
   }
 
-  findOneByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({
+  async findOneByEmail(email: string): Promise<User> | null {
+    const user = await this.userModel.findOne({
       where: {
         email,
       },
     })
+
+    if (!user) {
+      return null
+    }
+
+    return user
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> | null {
     const existsUser = await this.userModel.findOne({
       where: {
         email: createUserDto.email,
@@ -42,7 +55,7 @@ export class UsersService {
     })
 
     if (existsUser) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST)
+      return null
     }
 
     const passwordHash = await this.bcryptService.hasPassword(
@@ -62,6 +75,7 @@ export class UsersService {
       'User register successfully',
     )
 
+    delete user.dataValues?.password
     return user
   }
 }
