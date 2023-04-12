@@ -7,6 +7,10 @@ import { EmailService } from '../services/email.service'
 import { BcryptService } from '../services/bcrypt.service'
 import { CreateUserDto } from './dto/create.user.dto'
 
+const mockEmailService = {
+  sendEmail: jest.fn().mockImplementation(() => Promise.resolve(true)),
+}
+
 describe('UsersService', () => {
   let service: UsersService
   beforeEach(async () => {
@@ -17,7 +21,10 @@ describe('UsersService', () => {
           provide: getModelToken(User),
           useValue: mockUserModel,
         },
-        EmailService,
+        {
+          provide: EmailService,
+          useValue: mockEmailService,
+        },
         BcryptService,
       ],
     }).compile()
@@ -66,6 +73,20 @@ describe('UsersService', () => {
 
       const user = await service.create(data)
       expect(user).toHaveProperty('email', 'email@email.com')
+    })
+    it('should return null if user exists', async () => {
+      const data: CreateUserDto = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'email@email.com',
+        document: '12345678',
+        password: 'secret',
+        role: 'user',
+      }
+
+      mockUserModel.findOne.mockResolvedValue(data) // set the mocck to return client
+      const user = await service.create(data)
+      expect(user).toBeNull()
     })
   })
 })
