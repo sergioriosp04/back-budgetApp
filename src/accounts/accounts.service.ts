@@ -40,4 +40,18 @@ export class AccountsService {
 
     return newAccount
   }
+
+  async findOne(id: string, userId: number): Promise<Account> | null {
+    const account = await this.accountModel.findOne({
+      where: {
+        userId,
+        id,
+      },
+    })
+    if (!account) {
+      return null
+    }
+
+    return account
+  }
 }

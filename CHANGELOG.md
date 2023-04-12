@@ -11,6 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 ## [0.0.2] - 2023-03-28
+### Added
+- Unit test fot users module (users.controller.spec.ts, user.servce.spec.ts)
+- Accounts crud: users can create accounts and list your own accouts
 
 ## [0.0.1] - 2023-03-28
 ### Added
